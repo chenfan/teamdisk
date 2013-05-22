@@ -1,0 +1,355 @@
+<?php
+
+function ss( $key )
+{
+    return isset( $_SESSION[$key] ) ?  $_SESSION[$key] : false;
+}
+
+function ss_set( $key , $value )
+{
+    return $_SESSION[$key] = $value;
+}
+
+function ss_start()
+{
+    $sn=session_name();
+    if(!ss($sn))
+    {
+        if(!empty($_REQUEST[$sn]) && !empty($_SERVER['REMOTE_ADDR']))
+        {
+            session_id($_REQUEST[$sn]);
+        }
+        session_start();
+        if(false && ss('remote_ip') && ss('remote_ip') != $_SERVER['REMOTE_ADDR'])
+        {
+            session_unset();
+            header('Location: /');
+            exit;
+        }
+        if(!ss('remote_ip')) ss_set('remote_ip',$_SERVER['REMOTE_ADDR']);
+        ss_set($sn,session_id());
+        if(ss('weibo_user_info')) setcookie('weibo_bind','1');
+    }
+    else
+    {
+    }
+}
+
+function ajax_box( $content , $title = '系统消息' , $close_time = 0 , $forward = '' ,$vc=0,$width=400)
+{
+
+    require_once( CROOT . 'view/layout/ajax/box.tpl.html' );
+}
+
+function ajax_box2( $content , $title = '系统消息' ,$tpl="err", $close_time = 0 , $forward = '' )
+{
+    require_once( CROOT . 'view/layout/ajax/'.$tpl.'.tpl.html' );
+}
+
+function ajax_json( $info ,$status=NULL,$title=NULL,$data=NULL)
+{	
+    if(!is_array($info))
+        $info=array('msg'=>$info);
+    if(!isset($info['title'])) $info['title'] = is_null($title) ? '系统消息' : $title;
+    if(!isset($info['status'])) $info['status']= is_numeric($status) ? $status : 0;
+    if($data) $info['data'] = $data;
+    header("Content-Type: application/json; charset=utf-8");
+    header("Expires: Thu, 01 Jan 1970 00:00:01 GMT");
+    header("Cache-Control: no-cache, must-revalidate");
+    header("Pragma: no-cache");
+    echo json_encode($info);
+
+}
+
+function ajax_render($dat,$tpl='',$dir=false,$ret=false)
+{
+    if($ret)
+        return array($dat,$tpl);
+    if(is_array($dat))
+        extract($dat);
+    else
+    {
+        $content=$dat;
+        $title='系统消息';
+    }
+    header("Content-Type:text/html; charset=utf-8");
+    header("Expires: Thu, 01 Jan 1970 00:00:01 GMT");
+    header("Cache-Control: no-cache, must-revalidate");
+    header("Pragma: no-cache");
+    if(!$dir)
+        $dir=t(g('m'));
+    if($tpl == 'info')
+        $tpl=$tpl=AROOT.'view/layout/ajax/info.tpl.html';
+    elseif($tpl) $tpl=AROOT.'view/layout/ajax/'.$dir.'/'.$tpl.'.tpl.html';
+    else $tpl=AROOT.'view/layout/ajax/'.$dir.'/'.t(g('a')).'.tpl.html';
+    require_once($tpl);
+}
+
+
+function transcribe($aList, $aIsTopLevel = true) 
+{
+   $gpcList = array();
+   $isMagic = get_magic_quotes_gpc();
+  
+   foreach ($aList as $key => $value) {
+       if (is_array($value)) {
+           $decodedKey = ($isMagic && !$aIsTopLevel)?stripslashes($key):$key;
+           $decodedValue = transcribe($value, false);
+       } else {
+           $decodedKey = stripslashes($key);
+           $decodedValue = ($isMagic)?stripslashes($value):$value;
+       }
+       $gpcList[$decodedKey] = $decodedValue;
+   }
+   return $gpcList;
+}
+
+$_GET = transcribe( $_GET ); 
+$_POST = transcribe( $_POST ); 
+$_REQUEST = transcribe( $_REQUEST );
+
+
+function v( $str )
+{
+	return isset( $_REQUEST[$str] ) ? $_REQUEST[$str] : false;
+}
+
+function z( $str )
+{
+	return strip_tags( $str );
+}
+
+function c( $str )
+{
+	return isset( $GLOBALS['config'][$str] ) ? $GLOBALS['config'][$str] : false;
+}
+
+function g( $str )
+{
+	return isset( $GLOBALS[$str] ) ? $GLOBALS[$str] : false;	
+}
+
+function t( $str )
+{
+	return trim($str);
+}
+
+function u( $str )
+{
+	return urlencode( $str );
+}
+
+// render functiones
+function render( $data = NULL , $layout = NULL , $sharp = 'default' )
+{
+	if( $layout == null )
+	{
+		if( is_ajax_request() )
+		{
+			$layout = 'ajax';
+		}
+		elseif( is_mobile_request() )
+		{
+			$layout = 'mobile';
+		}
+		else
+		{
+			$layout = 'web';
+		}
+	}
+	
+	$GLOBALS['layout'] = $layout;
+	$GLOBALS['sharp'] = $sharp;
+	
+	$layout_file = AROOT . 'view/layout/' . $layout . '/' . $sharp . '.tpl.html';
+	if( file_exists( $layout_file ) )
+	{
+		@extract( $data );
+		require( $layout_file );
+	}
+	else
+	{
+		$layout_file = CROOT . 'view/layout/' . $layout . '/' . $sharp .  '.tpl.html';
+		if( file_exists( $layout_file ) )
+		{
+			@extract( $data );
+			require( $layout_file );
+		}	
+	}
+}
+
+function ajax_echo( $info )
+{
+	if( !headers_sent() )
+	{
+		header("Content-Type:text/html;charset=utf-8");
+		header("Expires: Thu, 01 Jan 1970 00:00:01 GMT");
+		header("Cache-Control: no-cache, must-revalidate");
+		header("Pragma: no-cache");
+	}
+	
+	echo $info;
+}
+
+
+function info_page( $info , $title = '系统消息' )
+{
+	if( is_ajax_request() )
+		$layout = 'ajax';
+	else
+		$layout = 'web';
+	
+	$data['top_title'] = $data['title'] = $title;
+	$data['info'] = $info;
+	
+	render( $data , $layout , 'info' );
+	
+}
+
+function is_ajax_request()
+{
+	$headers = apache_request_headers();
+	return isset( $headers['X-Requested-With'] ) && ( $headers['X-Requested-With'] == 'XMLHttpRequest' );
+}
+
+if (!function_exists('apache_request_headers')) 
+{ 
+	function apache_request_headers()
+	{ 
+		foreach($_SERVER as $key=>$value)
+		{ 
+			if (substr($key,0,5)=="HTTP_")
+			{ 
+				$key=str_replace(" ","-",ucwords(strtolower(str_replace("_"," ",substr($key,5))))); 
+                    $out[$key]=$value; 
+			}
+			else
+			{ 
+				$out[$key]=$value; 
+			}
+       } 
+       
+	   return $out; 
+   } 
+} 
+
+function is_mobile_request()
+{
+    $_SERVER['ALL_HTTP'] = isset($_SERVER['ALL_HTTP']) ? $_SERVER['ALL_HTTP'] : '';
+ 
+    $mobile_browser = '0';
+ 
+    if(preg_match('/(up.browser|up.link|mmp|symbian|smartphone|midp|wap|phone|iphone|ipad|ipod|android|xoom)/i', strtolower($_SERVER['HTTP_USER_AGENT'])))
+        $mobile_browser++;
+ 
+    if((isset($_SERVER['HTTP_ACCEPT'])) and (strpos(strtolower($_SERVER['HTTP_ACCEPT']),'application/vnd.wap.xhtml+xml') !== false))
+        $mobile_browser++;
+ 
+    if(isset($_SERVER['HTTP_X_WAP_PROFILE']))
+        $mobile_browser++;
+ 
+    if(isset($_SERVER['HTTP_PROFILE']))
+        $mobile_browser++;
+ 
+    $mobile_ua = strtolower(substr($_SERVER['HTTP_USER_AGENT'],0,4));
+    $mobile_agents = array(
+                        'w3c ','acs-','alav','alca','amoi','audi','avan','benq','bird','blac',
+                        'blaz','brew','cell','cldc','cmd-','dang','doco','eric','hipt','inno',
+                        'ipaq','java','jigs','kddi','keji','leno','lg-c','lg-d','lg-g','lge-',
+                        'maui','maxo','midp','mits','mmef','mobi','mot-','moto','mwbp','nec-',
+                        'newt','noki','oper','palm','pana','pant','phil','play','port','prox',
+                        'qwap','sage','sams','sany','sch-','sec-','send','seri','sgh-','shar',
+                        'sie-','siem','smal','smar','sony','sph-','symb','t-mo','teli','tim-',
+                        'tosh','tsm-','upg1','upsi','vk-v','voda','wap-','wapa','wapi','wapp',
+                        'wapr','webc','winw','winw','xda','xda-'
+                        );
+ 
+    if(in_array($mobile_ua, $mobile_agents))
+        $mobile_browser++;
+ 
+    if(strpos(strtolower($_SERVER['ALL_HTTP']), 'operamini') !== false)
+        $mobile_browser++;
+ 
+    // Pre-final check to reset everything if the user is on Windows
+    if(strpos(strtolower($_SERVER['HTTP_USER_AGENT']), 'windows') !== false)
+        $mobile_browser=0;
+ 
+    // But WP7 is also Windows, with a slightly different characteristic
+    if(strpos(strtolower($_SERVER['HTTP_USER_AGENT']), 'windows phone') !== false)
+        $mobile_browser++;
+ 
+    if($mobile_browser>0)
+        return true;
+    else
+        return false;
+}
+
+function uses( $m )
+{
+	load( 'lib/' . basename($m)  );
+}
+
+function load( $file_path ) 
+{
+	$file = AROOT . $file_path;
+	if( file_exists( $file ) )
+	{
+		//echo $file;
+		require( $file );
+	
+	}
+	else
+	{
+		//echo CROOT . $file_path;
+		require( CROOT . $file_path );
+	}
+	
+}
+
+// ===========================================
+// load db functions
+// ===========================================
+if( defined('SAE_APPNAME') )
+	include_once( CROOT .  'lib/db.sae.function.php' );
+else
+	include_once( CROOT .  'lib/db.function.php' );
+
+if (!function_exists('_'))
+{
+	function _( $string , $data = null )
+	{
+		if( !isset($GLOBALS['i18n']) )
+		{
+			$c = c('default_language');
+			if( strlen($c) < 1 ) $c = 'zh_cn';
+			
+			$lang_file = AROOT . 'local' . DS . basename($c) . '.lang.php';
+			if( file_exists( $lang_file ) )
+			{
+				include_once( $lang_file );
+				$GLOBALS['i18n'] = 'zh_cn';
+			}
+		}
+		
+		//print_r( $GLOBALS['language'][$GLOBALS['i18n']] );
+		
+		
+		
+		if( isset( $GLOBALS['language'][$GLOBALS['i18n']][$string] ) )
+			$to = $GLOBALS['language'][$GLOBALS['i18n']][$string];
+		else
+			$to = $string;
+		
+		if( $data == null )
+			return $to;
+		else
+		{
+			if( !is_array( $data ) ) $data = array( $data );
+			return vsprintf( $to , $data );
+		}	
+			
+	}
+} 	
+
+
+

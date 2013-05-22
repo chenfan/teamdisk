@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="zh-cn">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>TeamDisk</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+
+	<link rel="stylesheet" href="static/css/bootstrap.min.css">
+	<link rel="stylesheet" href="static/css/style.css" type="text/css" >
+</head>
+<body>
+<!-- Modal -->
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="width:320px;margin: -244px 0 0 -170px;" aria-hidden="true">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+<h3 id="myModalLabel">修改管理员密码</h3>
+</div>
+<div class="modal-body">
+<input type="text" class="input-large" placeholder="输入原始密码" style="width:85%" id="pass">
+<input type="text" class="input-large" placeholder="输入新密码" style="width:85%" id="newpass">
+<input type="text" class="input-large" placeholder="重复输入新密码" style="width:85%" id="renewpass">
+</div>
+<div class="modal-footer">
+<button class="btn" data-dismiss="modal" aria-hidden="true">取消</button>
+<button class="btn btn-primary" onclick="update_admin_pass();">更新</button>
+</div>
+</div>
+<div id="container" >
+	<div class="header">
+		<div class="header_container">
+			<div class="logo">
+			</div>
+
+          	<div class="navbar menu">
+			    <ul class="nav">
+			    <li><a href="index.html">用户权限<span>&nbsp;&nbsp;&nbsp;&nbsp;|</span></a></li>
+			    <li><a href="folder.html">权限管理<span>&nbsp;&nbsp;&nbsp;&nbsp;|</span></a></li>
+			    <li><a href="#myModal" data-toggle="modal" data-target="#myModal">修改密码<span>&nbsp;&nbsp;&nbsp;&nbsp;|</span></a></li>
+			    <li><a href="#" onclick="logout();void(0);">退出</a></li>
+			    </ul>
+			</div>
+		</div>
+	</div>
+	<div class="main_container row-fluid" role="main">
+		
+		<div class="span6" style="width:615px">
+			<div style="font-size: 18px;font-weight: bold;margin:10px 0px;">
+				目录列表
+			</div>
+			<div class="main_left_top well">
+			    <form class="form-search">
+			    <input type="text" class="input-large" id="foldername" style="width:80%" placeholder="输入新建目录名称">
+			    <button type="button" id="add_folder_btn" class="btn" onclick="add_folder();">添加 &nbsp;&nbsp;<i class="icon-plus"></i> </button>
+			    </form>
+			</div>
+			<div class="main_left_cont well">
+			    <ul class="nav" id="folder_list">
+			    </ul>
+			</div>
+		</div>
+		<div class="span3" id="folder_user" style="display: none;">
+		<div style="font-size: 18px;font-weight: bold;margin:10px 0px;">
+				选择用户
+		</div>
+		<div class="span4 well" style="margin-left: 0px;width: 310px;padding: 0px 0px 10px 0px;">
+		   <div class="right_user_list_header">
+    			<span><label class="checkbox" style="float:left;margin:5px 50px 0px 0px;width: 50px;"><input type="checkbox" id="check_all"> 全选</label></span>
+    			<button type="button" class="btn" id="user_update_btn">确定选择（ <span id="user_num">0</span>个 ）</button>
+		    </div>
+		    <div>
+			    <ul class="nav right_user_list" id="user_list">
+				</ul>
+			</div>
+		</div>
+		</div>
+	</div>
+	<footer>
+<input class="op-cover round8"  name="email" id="email" type="hidden" placeholder="Email" value="" />
+<input class="op-cover round8" name="password"  id="password" type="hidden" placeholder="Password" value=""/>
+	</footer>
+</div> <!--! end of #container -->
+
+<script src="http://lib.sinaapp.com/js/jquery/1.7/jquery.min.js"></script>
+<script src="static/script/bootstrap.min.js"></script>
+<script src="static/script/plugins.js"></script>
+<script src="static/script/jq.template.js"></script>
+<script src="static/script/script.js"></script>
+
+<!-- scripts concatenated and minified via ant build script-->
+<script type="text/javascript">
+function loaded() 
+{
+
+	if(  kget('op_email') && kget('op_email').length > 0 && kget('op_password').length > 0  )
+	{
+		$('#email').val( kget('op_email') );
+		$('#password').val( kget('op_password') );
+
+		login();
+		
+	}else{
+		change_page( 'login' );
+	}
+}
+jQuery(document).ready(function($) {
+	loaded();
+	folder_list();
+	$('#myModal').modal('hide');
+
+});
+</script>
+<script id="folder_list_tpl" type="text/html">
+<% for ( var i = 0; i < items.length; i++ ) { %>
+    <li id="fold_<%=items[i].name%>">
+		<div class="span4" style="width:360px;">
+			<span style="font-size:16px;font-weight:bold;margin-right:20px;" id="lipassword<%=items[i].id%>"><%=items[i].name%></span>
+	    </div>
+	    <div class="btn-group" style="width: 125px;">
+	    <button class="btn" id="pencil<%=items[i].id%>" onclick="edit_pass('<%=items[i].id%>');"><i class="icon-pencil"></i></button>
+	    <button class="btn" id="ok<%=items[i].id%>" style="display:none" onclick="save_folder_name('<%=items[i].name%>','<%=items[i].id%>');"><i class="icon-ok"></i></button>
+	    <button class="btn" onclick="delete_folder('<%=items[i].name%>','');"><i class="icon-remove"></i></button>
+	    <button class="btn" onclick="show_user('<%=items[i].name%>','');"><i class="icon-user"></i></button>
+		<sup style="margin-left: -10px;z-index:10;"><span class="badge badge-info" style="padding:1px 5px;"><%=items[i].member%></span></sup>
+		<div style="postion:absolute;top:20px;display:none" id="arrow_<%=items[i].name%>" class="arrow_div"><span class="arrow">◆</span></div>
+	    </div>
+	</li>
+<% } %>
+</script>
+<script id="user_list_tpl" type="text/html">
+<% for ( var i = 0; i < items.length; i++ ) { %>
+    <li <% if(items[i].pri){%> style="background-color: #e5e5e5;" data-user="choice"<% } else {%> data-user=""<% } %> onclick="choice_user('<%=items[i].username%>');" id="user<%=items[i].username%>" class="userlist" data-uid="<%=items[i].id%>">
+		<div class="span3">
+			<span><%=items[i].username%></span>
+	    </div>
+	</li>
+<% } %>
+</script>
+<!-- end scripts-->
+
+</body>
+</html>

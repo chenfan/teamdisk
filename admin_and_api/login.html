@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="zh-cn">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>TeamDisk</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+
+	<link rel="stylesheet" href="static/css/bootstrap.min.css">
+	<link rel="stylesheet" href="static/css/style.css" type="text/css" >
+</head>
+<body>
+
+<div id="container" style="background: url('/static/image/login_bg.jpg') repeat-x;">
+	<div id="login" role="main">
+
+		<div class="login_box">
+			<div class="login_form round5">
+			<p><input class="op-cover round8" style="width: 270px;height: 28px;" name="email" id="email" type="text" placeholder="Email" value="" /></p>
+			<p><input class="op-cover round8" style="width: 270px;height: 28px;" name="password"  id="password" type="password" placeholder="Password" value=""/></p>
+			<p style="text-align: right;width: 280px;"><input type="checkbox" name="remeber" style="margin:5px;"/>两周内记住?</p>
+			<p class="submit" id="login_btn_p">
+			<input type="button" value="登陆" style="width:280px;height: 42px;font-size: 18px;"class="btn btn-large btn-primary" style="width:150px;" id="login_button" onclick="login('index');void(0);"></p>
+			</div>
+		</div>
+
+	</div>
+	<footer>
+
+	</footer>
+</div> <!--! end of #container -->
+
+<script src="http://lib.sinaapp.com/js/jquery/1.7/jquery.min.js"></script>
+<script src="static/script/plugins.js"></script>
+<script src="static/script/script.js"></script>
+
+<!-- scripts concatenated and minified via ant build script-->
+<script type="text/javascript">
+
+function loaded() 
+{
+
+	if( kget('op_email') && kget('op_email').length > 0 && kget('op_password').length > 0  )
+	{
+		$('#email').val( kget('op_email') );
+		$('#password').val( kget('op_password') );
+		
+		login('index');
+
+		
+	}
+}
+
+
+
+document.addEventListener('DOMContentLoaded', loaded, false);
+
+
+
+</script>
+
+<!-- end scripts-->
+
+</body>
+</html>

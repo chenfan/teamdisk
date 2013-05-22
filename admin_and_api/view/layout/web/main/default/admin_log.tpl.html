@@ -1,0 +1,49 @@
+<div class="">
+<ul class="breadcrumb">
+  <li>
+    <a href="#">系统管理</a> <span class="divider">/</span>
+  </li>
+
+  <li class="active">操作日志</li>
+</ul>
+</div>
+<div style="margin-left:20px;">
+    <div>
+        <div> 
+        <form class="well form-inline">
+          <input type="text" class="input-big" placeholder="管理员id">
+          <button type="submit" class="btn btn-primary">搜索</button>
+          全部 |  1周   |  1个月  |  
+        </form>
+        </div>
+
+        <div class="tab-pane active" id="home">
+            <table class="table table-striped table-bordered">
+              <thead>
+                <tr>
+                  <th>管理员</th>
+                  <th>操作</th>
+                  <th>时间</th>
+                  <th>IP</th>
+                </tr>
+              </thead>
+              <tbody>
+              <?php
+              if($admin_log){
+              foreach($admin_log as $log){
+              ?>
+                <tr>
+                  <td><?=$log['name']?></td>
+                  <td><?=$log['action']?></td>
+                  <td><?=$log['timeline']?></td>
+                  <td><?=$log['ip']?></td>
+                </tr>
+              <?php
+              }
+              }
+              ?>
+              </tbody>
+            </table>
+        </div>
+    </div>
+</div>

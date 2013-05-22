@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="zh-cn">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>TeamDisk</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+
+	<link rel="stylesheet" href="static/css/bootstrap.min.css">
+	<link rel="stylesheet" href="static/css/style.css" type="text/css" >
+</head>
+<body>
+<!-- Modal -->
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="width:320px;margin: -244px 0 0 -170px;" aria-hidden="true">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+<h3 id="myModalLabel">修改管理员密码</h3>
+</div>
+<div class="modal-body">
+<input type="text" class="input-large" placeholder="输入原始密码" style="width:85%" id="pass">
+<input type="text" class="input-large" placeholder="输入新密码" style="width:85%" id="newpass">
+<input type="text" class="input-large" placeholder="重复输入新密码" style="width:85%" id="renewpass">
+</div>
+<div class="modal-footer">
+<button class="btn" data-dismiss="modal" aria-hidden="true">取消</button>
+<button class="btn btn-primary" onclick="update_admin_pass();">更新</button>
+</div>
+</div>
+<div id="container">
+	<div class="header">
+		<div class="header_container">
+			<div class="logo">
+			</div>
+
+          	<div class="navbar menu">
+			    <ul class="nav">
+			    <li><a href="index.html">用户权限<span>&nbsp;&nbsp;&nbsp;&nbsp;|</span></a></li>
+			    <li><a href="folder.html">权限管理<span>&nbsp;&nbsp;&nbsp;&nbsp;|</span></a></li>
+			    <li><a href="#myModal" data-toggle="modal" data-target="#myModal">修改密码<span>&nbsp;&nbsp;&nbsp;&nbsp;|</span></a></li>
+			    <li><a href="#" onclick="logout();void(0);">退出</a></li>
+			    </ul>
+			</div>
+		</div>
+	</div>
+	<div class="main_container row-fluid" role="main">
+		
+		<div class="span6" style="width:615px">
+			<div style="font-size: 18px;font-weight: bold;margin:10px 0px;">
+				用户管理
+			</div>
+			<div class="main_left_top well">
+			    <form class="form-search">
+			    <input type="text" class="input-large" style="width:80%" id="buddy_key">
+			    <button type="button" class="btn"><i class="icon-search"></i> 搜索用户</button>
+			    </form>
+			</div>
+			<div class="main_left_cont well">
+			    <ul class="nav" id="user_list">
+			    </ul>
+			</div>
+
+		</div>
+		<div class="span3">
+		<div style="font-size: 18px;font-weight: bold;margin:10px 0px;">
+				添加新用户
+		</div>
+
+		<div class="span4 well" style="margin-left: 0px;width: 270px;">
+			    <form>
+			    <fieldset>
+			    <label>用户名</label>
+			    <input type="text" placeholder="输入用户名" id="username" name="username">
+			    <label class="checkbox">
+			    <input type="checkbox" id="randpass" name="randpass" onclick="if(this.checked){get_randpass();}else{$('#userpass').val('');}" checked="checked"> <label for="randpass">生成随即密码</label>
+			    </label>
+			    <input type="text" id="userpass" name="userpass" placeholder="输入密码">
+			    <label class="checkbox">
+			    <input type="checkbox" id="prifold" name="prifold"> 同时开启个人目录
+			    </label>
+			    <button type="button" class="btn" onclick="add_user();return false;" id="add_user_btn">添加<i class="icon-plus"></i></button>
+			    </fieldset>
+			    </form>
+		</div>
+		</div>
+	</div>
+	<footer>
+<input class="op-cover round8"  name="email" id="email" type="hidden" value="" />
+<input class="op-cover round8" name="password"  id="password" type="hidden"  value=""/>
+	</footer>
+</div> <!--! end of #container -->
+
+<script src="http://lib.sinaapp.com/js/jquery/1.7/jquery.min.js"></script>
+<script src="static/script/bootstrap.min.js"></script>
+<script src="static/script/plugins.js"></script>
+<script src="static/script/jq.template.js"></script>
+<script src="static/script/script.js"></script>
+<script src="static/script/ZeroClipboard.js"></script>
+
+<!-- scripts concatenated and minified via ant build script-->
+<script type="text/javascript">
+function loaded() 
+{
+
+	if(  kget('op_email') && kget('op_email').length > 0 && kget('op_password').length > 0  )
+	{
+		$('#email').val( kget('op_email') );
+		$('#password').val( kget('op_password') );
+		
+		login();
+		
+	}else{
+		change_page( 'login' );
+	}
+}
+jQuery(document).ready(function($) {
+	loaded();
+	user_list();
+	$('#myModal').modal('hide');
+	buddy_search();
+	get_randpass();
+
+});
+</script>
+<script id="user_list_tpl" type="text/html">
+<% for ( var i = 0; i < items.length; i++ ) { %>
+    <li user="<%=items[i].username%>" class="user" id="u_<%=items[i].username%>">
+		<div class="span4">
+			<span style="font-weight:bold;font-size:16px;margin-right:40px;" id="liusername<%=items[i].id%>"><%=items[i].username%></span><span id="lipassword<%=items[i].id%>" style="float:right;width:258px;"><%=items[i].password%></span>
+	    </div>
+	    <div class="btn-group">
+	    <button class="btn" id="pencil<%=items[i].id%>" onclick="edit_pass('<%=items[i].id%>');"><i class="icon-pencil"></i></button>
+	    <button class="btn" id="ok<%=items[i].id%>" style="display:none" onclick="save_pass('<%=items[i].username%>','<%=items[i].id%>');"><i class="icon-ok"></i></button>
+	    <button class="btn" id="folder-open<%=items[i].id%>" onclick="prifold('<%=items[i].id%>','close');"><i class="icon-folder-open"></i></button>
+	    <button class="btn" id="icon-folder-close<%=items[i].id%>" style="display:none" onclick="prifold('<%=items[i].id%>','open');"><i class="icon-folder-close"></i></button>
+	    <button class="btn" id="remove" onclick="delete_user('<%=items[i].username%>');"><i class="icon-remove"></i></button>
+	    <button id="copy-button<%=items[i].id%>" data-clipboard-text="复制成功！用户名：<%=items[i].username%> 密码：<%=items[i].password%>" class="btn copy" onclick="alert('浏览器不支持，请手动复制！ 用户名：<%=items[i].username%> 密码：<%=items[i].password%>')"><i class="icon-book"></i></button>
+	    </div>
+	</li>
+<% } %>
+</script>
+<!-- end scripts-->
+</body>
+</html>

@@ -1,0 +1,43 @@
+<style>
+.invite{border:3px #f5f5f5 solid;height:500px;background:#FDFDFD;}
+.invite .iv_main{width:740px;margin:40px auto;}
+.invite .iv_title{font-size:24px;font-weight:normal;border-bottom:1px #f5f5f5 solid;padding:25px 30px;margin:40px 0 0 0;}
+.invite .iv_body{font-size:16px;padding:0px 30px;line-height:40px;margin-top:44px;}
+</style>
+<script type="text/javascript">
+$(function(){
+    $("#name").input_default_text("请输入用户名");
+    $("#login").submit(function(){
+        var name = $.trim($("#name").val());
+        var pass = $.trim($("#pass").val());
+        $.post("/?c=login&a=login",{"uname":name,"psw":pass},function(r){
+            if(r.status=='1'){
+                show_pop_box({
+                    "title":r.title,
+                    "html":"<p align='center' style='margin:30px 0;'>"+r.msg+"！</p>",
+                    "width":500,
+
+                });
+            }else if(r.status=="0"){
+                window.location.href="/?c=appstore&a=applist&stat=forverify";
+            }
+        });
+        return false;
+    });
+});
+</script>
+<div style="width:960px;margin: 20px auto;">
+    <div class="invite">
+        <div class="iv_main">
+            <div class="iv_title">用户登录</div>
+            <div class="iv_body">
+                <form id="login" name="login">
+                你好，欢迎进入team disk管理中心<br/>
+                <div style="margin:20px 0;"><input type="text" class="text2" name="name" id="name" style="width:300px" /></div>
+                <div style="margin:20px 0;"><input type="password" placeholder="请输入密码" name="pass" id="pass" style="width:300px" /></div>
+                <div><input type="submit" class="btn btn-primary btn-large" value="登陆管理中心" /></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
