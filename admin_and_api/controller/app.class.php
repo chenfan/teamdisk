@@ -12,13 +12,11 @@ class appController extends coreController
         $c = g('c');
         session_start();
         if(!ss('uid') && $c != 'login'){
-            //var_dump($a,$c,ss('uid'));
-            //header('Location: /?c=login');
-            //exit();
+            header('Location: /?c=login');
+            exit();
             
         }
 	}
-
 	// login check or something
 	
 	
