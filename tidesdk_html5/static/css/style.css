@@ -1,0 +1,463 @@
+#ft
+{
+	color:#999;
+	text-align:center;
+	margin-top:20px;
+}
+
+#main,#side
+{
+	min-height:400px;
+	_height:400px;
+	background:#eee;
+	
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+}
+
+#side
+{
+	width:160px;
+	margin-right:10px;
+}
+
+.content_box,.cbox
+{
+	padding:10px;
+}
+
+.form_notice
+{
+	padding:5px;
+	margin:5px;
+	margin-left:0px;
+	margin-top:0px;
+}
+
+.front-page h1
+{
+	margin-bottom: 10px;
+}
+
+#lp_pop_box
+{
+	position:absolute;
+	position:fixed;
+	width:400px;
+	background:rgba( 0 , 0 , 0 , 0.2 );
+	margin:auto;
+	top:200px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+}
+
+#lp_pop_container
+{
+	margin:10px;
+	min-height:200px;
+	height:100%;
+	background: white; /* fallback for older/unsupporting browsers */  
+	background: -moz-linear-gradient(top, #eee, white 8%);   
+	background: -webkit-gradient(linear, 0 0, 0 8%, from(#eee), to(white));   
+	
+}
+
+.close
+{
+	float:right;
+	cursor:pointer;
+}
+
+.round5
+{
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+}
+
+.x2
+{
+	line-height:200%;
+}
+
+.x1-5
+{
+	line-height:150%;
+}
+
+a
+{
+	color:#0066cc;
+	text-decoration:none;
+}
+
+a:hover
+{
+	text-decoration:underline;
+}
+
+.btn 
+{
+	-webkit-border-radius: 1px;
+	-moz-border-radius: 1px;
+	border-radius: 1px;
+}
+.btn-info.active {
+	background-color: #AFC6F0;
+	color: #333;
+}
+.btn-large
+{
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+	border: 1px solid #a3b5d5;
+	padding:6px 14px;
+
+}
+
+.header
+{
+	height: 70px;
+	background: url('../image/head_bg.jpg') repeat-x;
+
+}
+.header_container{
+	padding: 12px;
+	margin:0px auto;
+	width: 100%;
+}
+.logo
+{
+	height: 50px;
+	width: 230px;
+	float: left;
+	background: url('../image/logo.jpg') no-repeat;
+
+}
+.main_container{
+	margin:0px auto;
+	width: 100%;
+}
+.nav
+{
+	margin-bottom: 0px;
+}
+
+.front_list li
+{
+	font-size: 16px;
+	font-weight: bold;
+	height: 18px;
+	padding: 25px;
+	border-bottom: 1px solid #DDDDDD;
+	-moz-box-shadow:2px 2px 5px #fff;/*firefox*/
+	-webkit-box-shadow:2px 2px 5px #fff;/*webkit*/
+	box-shadow:2px 2px 5px #fff;/*opera或ie9*/
+
+}
+
+.front_list li:hover
+{
+	background-color: #fff;
+}
+
+#grid_view li
+{
+	list-style: none;
+	float: left;
+	width: 126px;
+	height: 150px;
+	margin: 0px 20px;
+
+}
+
+#grid_view ul
+{
+	margin: 8px
+}
+
+.thumb-grid
+{
+	cursor: pointer;
+	width:96px;
+	height:96px;
+	padding:11px 15px;
+	position: relative;
+}
+
+.thumb-grid-hover,.thumb-grid:hover
+{
+	padding:10px 14px;
+	border: 1px solid #0074cc;
+}
+
+.grid_file_name
+{
+	text-align: center;
+	height: 20px;
+	margin-top: 5px;
+
+}
+.grid_checkbox
+{
+	position: absolute;
+	left: 112px;
+	top: -5px;
+	display: none
+}
+
+.table
+{
+	margin-bottom: 0px;
+	border-bottom: 1px solid #DDDDDD;
+}
+
+.table tbody td
+{
+	height: 42px;
+	line-height : 42px;
+	overflow:hidden;
+	
+}
+
+.table td 
+{
+	#border-bottom: 1px solid #DDDDDD;
+	-moz-box-shadow:0px 2px 0px #fff;/*firefox*/
+	-webkit-box-shadow:0px 2px 0px #fff;/*webkit*/
+	box-shadow:0px 2px 0px #fff;/*opera或ie9*/
+}
+
+td.file_box{
+	height: 42px;
+	line-height: 42px;
+	text-align: center;
+	display:block;
+}
+
+td.file_box .file_manage{
+	display:none;
+	text-align:center;
+	padding:8px;
+}
+td.file_box .flie_manage .btn-group{
+	display:inline;
+	margin-top:8px;
+	height:34px;
+}
+
+.tool th
+{
+	padding:0px;
+}
+
+#tool_bar
+{
+	background:#CDCDCD;
+	height:36px;
+	padding:8px;
+	display: none;
+	border-top: 1px solid #B2B2B2;
+	-moz-box-shadow:0px 2px 5px #B2B2B2;/*firefox*/
+	-webkit-box-shadow:0px 2px 5px #B2B2B2;/*webkit*/
+	box-shadow:0px 2px 5px #B2B2B2;/*opera或ie9*/
+}
+
+.tool_bar_num
+{
+	float:left; 
+	width:100px;
+	height:15px;
+	padding:15px;
+}
+
+.tool_bar_btn_group
+{
+	float:left;
+	margin-top:3px;
+	margin-right:50px;
+	width: 350px;
+}
+
+.tool_bar_del
+{
+	float:left;margin-top:3px;
+}
+
+.page_header
+{
+	background:#D4DFF3;
+	height:40px;
+	padding:10px;
+}
+
+.page_content
+{
+	height:100%;
+	min-height:500px;
+	background:#F1F1F6;
+}
+
+#home_btn
+{
+	float:left;
+	background: url('static/image/home.jpg') no-repeat;
+	width:55px;height:45px;
+	margin: -6px 0px 0px 8px;
+}
+
+#parent_link
+{
+	margin-left:30px;
+	float:left;
+	display: none;
+}
+
+#fileselect
+{
+	opacity: 0;
+	width: 155px;
+	height: 41px;
+	position: absolute;
+	z-index: 10;
+	font-size: 100px;
+	overflow: hidden;
+}
+
+.download_tip
+{
+	position: fixed; 
+	bottom: 24px; 
+	width: 504px; 
+	right: 0;
+}
+
+#download_header
+{
+	background:#F1F1F6;
+	height:36px;
+	background: url('../image/tooltip.jpg') no-repeat right 0;
+}
+
+#download_content
+{
+	background:#fff;
+	line-height: 14px;
+	width:504px;
+	border: 1px solid #DDDDDD;
+	max-height:600px;
+	display: none;
+}
+
+.page_foot
+{
+	background:#E5E5E7;
+	height:14px;
+	padding:5px 20px;
+	line-height: 14px;
+}
+
+.file_name,.dir_name
+{
+ cursor: pointer;
+}
+
+#progress
+{
+	margin: 0px;
+}
+
+#progress li
+{
+	list-style: none;
+	font-size: 16px;
+	font-weight: bold;
+	height: 18px;
+	padding: 25px;
+	border-bottom: 1px solid #DDDDDD;
+	-moz-box-shadow:2px 2px 5px #fff;/*firefox*/
+	-webkit-box-shadow:2px 2px 5px #fff;/*webkit*/
+	box-shadow:2px 2px 5px #fff;/*opera或ie9*/
+	display: block;
+	background: #eee url("progress.png") 100% 0 repeat-y;
+
+}
+
+#download_item li:hover
+{
+	background-color: #fff;
+}
+
+#uploadForm form
+{
+	margin:0px;
+}
+
+
+#folder_list.hover
+{
+	color: #f00;
+	border-color: #f00;
+	border-style: solid;
+	box-shadow: inset 0 3px 4px #888;
+}
+
+img
+{
+	max-width: 100%;
+}
+
+#progress li.success
+{
+	background: #DDD none 0 0 no-repeat;
+}
+
+#progress li.failure
+{
+	background: #FFF none 0 0 no-repeat;
+}
+
+/*full screen*/
+
+html,body,#container{
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
+#container .header{
+	height: 74px;
+	position: fixed;
+	width: 100%;
+	z-index: 30;
+}
+
+#container .main_container{
+	min-height: 500px;
+	position: absolute;
+	#margin-left: -480px;
+	#left: 50%;
+	top: 74px;
+	bottom: 0;
+	background: #F1F1F6;
+}
+.main_container .inner-warp{
+	position: absolute;
+	top: 0;
+	bottom: 60px;
+}
+
+
+.page_foot {
+	background: #E5E5E7;
+	height: 24px;
+	line-height: 24px;
+	text-indent: 5px;
+	position: fixed;
+	width: 100%;
+	bottom: 0;
+	padding:0;
+}

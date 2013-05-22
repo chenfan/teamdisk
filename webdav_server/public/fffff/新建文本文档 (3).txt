@@ -1,0 +1,15 @@
+420115198707305516 821470916 1 10 12 13 825
+
+Your details are as follows: 
+
+Name: peter li
+Email: cfwcz@hotmail.com
+
+CREATE TABLE `1kapp`.`app_icp` (
+`app_id` INT NOT NULL ,
+`icp` VARCHAR( 100 ) NOT NULL ,
+`apply_time` INT NOT NULL ,
+`pass_time` INT NOT NULL
+) ENGINE = MYISAM ;
+
+huqian123456

@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="zh-cn">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>TeamDisk</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+
+	<link rel="stylesheet" href="static1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="static1/css/style.css" type="text/css" >
+</head>
+<body>
+<!-- Modal -->
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="width:320px;margin: -244px 0 0 -170px;" aria-hidden="true">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+<h3 id="myModalLabel">添加新链接</h3>
+</div>
+<div class="modal-body">
+<input type="text" class="input-large" placeholder="地址" style="width:85%" id="domain">
+<input type="text" class="input-large" placeholder="用户名" style="width:85%" id="user">
+<input type="text" class="input-large" placeholder="密码" style="width:85%" id="pass">
+</div>
+<div class="modal-footer">
+<button class="btn" data-dismiss="modal" aria-hidden="true">取消</button>
+<button class="btn btn-primary" onclick="update_admin_pass();">更新</button>
+</div>
+</div>
+<div id="container">
+	<div class="header">
+		<div class="header_container">
+			<div class="logo">
+			</div>
+		</div>
+	</div>
+
+	<div class="main_container row-fluid" role="main">
+		
+		<div class="span12">
+			<div style="background:#D4DFF3;height:34px;padding:14px;" >
+				<a href="#myModal" data-toggle="modal" data-target="#myModal"><button type="button" class="btn btn-large" style="padding: 7px 14px;"><i class="icon-plus"></i> 添加链接</button></a>
+				<div style="float:right">
+					<p>还没有teamdisk 工作站<br><a href="#" onclick="Ti.Platform.openApplication('chrome:http://baidu.com')">点击这里快速部署</a></p>
+				</div>
+			</div>
+			<div style="background:#f5f5f5;border: 1px solid #DDDDDD;">
+				<ul class="nav front_list" id="account_list">
+					
+				</ul>
+			</div>
+			<div class="page_foot">
+			根目录<span id="path"></span>
+			<div style="float:right;margin-right:20px;"><a href="#setting" data-toggle="modal" data-target="#setting"><i class="icon-cog"></i></a></div>
+		</div>
+		</div>
+	</div>
+	<footer>
+	
+<input class="op-cover round8"  name="email" id="email" type="hidden" value="" />
+<input class="op-cover round8" name="password"  id="password" type="hidden"  value=""/>
+	</footer>
+</div> <!--! end of #container -->
+
+<script src="http://lib.sinaapp.com/js/jquery/1.7/jquery.min.js"></script>
+<script src="static1/script/jquery.ns.js" type="text/javascript"></script>
+<script src="static1/script/bootstrap.min.js"></script>
+<script src="static1/script/plugins.js"></script>
+<script src="static1/script/jq.template.js"></script>
+<script src="static1/script/script.js"></script>
+<!-- scripts concatenated and minified via ant build script-->
+<script type="text/javascript">
+function account_del(url)
+{
+	var account = jQuery.parseJSON(kget('account'));
+	for ( var i = 0; i < account.length; i++ )
+	{
+		if(account[i].url == url){
+			account.splice(i,1);
+			break;
+		}
+	}
+	kset('account',account);
+	$("#account_list").html( $.tmpl("account_list_tpl" , {'items':account}) );
+}
+function account_edit(url)
+{
+	var account = jQuery.parseJSON(kget('account'));
+	for ( var i = 0; i < account.length; i++ )
+	{
+		if(account[i].url == url){
+			account.splice(i,1);
+			break;
+		}
+	}
+	kset('account',account);
+	$("#account_list").html( $.tmpl("account_list_tpl" , {'items':account}) );
+}
+jQuery(document).ready(function($) {
+	//kset('account','[{"url":"domain1.1kapp.com","name":"ff"},{"url":"domain2.1kapp.com","name":"ff"}]');
+	var account = jQuery.parseJSON(kget('account'));
+
+	$("#account_list").html( $.tmpl("account_list_tpl" , {'items':account}) );
+	$('#myModal').modal('hide');
+	$(".domain_list").on({'mouseenter':function()
+	{
+		$(this).find('.manage').css('display','block');
+	},
+	'mouseleave': function ()
+	{
+		$(this).find('.manage').css('display','none');
+	}
+	});
+});
+
+</script>
+<script id="account_list_tpl" type="text/html">
+<% for ( var i = 0; i < items.length; i++ ) { %>
+<li class="domain_list">
+	<div style="float:left;"><a href="#" onclick="change_page('index')"><%=items[i].url%></a></div>
+	<div style="float:right;display: none" class="manage">
+		<button class="btn" onclick="account_del('<%=items[i].url%>')">删除</button>
+		<button class="btn" onclick="account_edit('<%=items[i].url%>')">编辑</button>
+	</div>
+</li>
+<% } %>
+
+</script>
+<!-- end scripts-->
+</body>
+</html>
