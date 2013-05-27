@@ -4,4 +4,5 @@
 
 所有的api继承父类api.class.php。如admin的api为api_admin.class.php,扩充管理员api功能可继承此类
 
-使用后台请先倒入数据库结构文件db.sql。
+使用后台请先导入数据库结构文件db.sql。
+

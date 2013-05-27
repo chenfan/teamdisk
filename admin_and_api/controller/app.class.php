@@ -21,6 +21,4 @@ class appController extends coreController
 	
 	
 }
-
-
 ?>
