@@ -15,6 +15,8 @@ teamdisk
 
 当普通用户使用webdav客户端软件来读取服务端数据的时候，他只能看到管理员给他分配的资源。
 
+![Alt text](pc.jpg "客户端")
+
 ## 管理员后台管理和资源服务操作api
 
 代码在目录 /admin_and_api
