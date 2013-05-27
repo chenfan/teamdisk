@@ -31,4 +31,6 @@ H5客户端，实现对webdav服务端文件的操作，包括复制，删除，
 
 关于tidesdk的资料可以参考官网http://www.tidesdk.org/
 
+![客户端图片](https://github.com/chenfan/teamdisk/blob/master/pc.jpg "客户端")
+
 
