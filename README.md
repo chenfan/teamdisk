@@ -7,7 +7,7 @@ teamdisk
 
 本程序分为3个部分
 
-## 服务端webdav程序
+### 服务端webdav程序
 
 代码在目录 /webdav_server
 
@@ -15,9 +15,8 @@ teamdisk
 
 当普通用户使用webdav客户端软件来读取服务端数据的时候，他只能看到管理员给他分配的资源。
 
-![客户端图片](https://github.com/chenfan/teamdisk/blob/master/pc.jpg "客户端")
 
-## 管理员后台管理和资源服务操作api
+### 管理员后台管理和资源服务操作api
 
 代码在目录 /admin_and_api
 
@@ -25,12 +24,14 @@ teamdisk
 
 管理员所有的变更都是通过api来完成，目前开发了管理员使用的用户管理api，文件夹api。有新的业务场景可以扩展这些api。以及提供用户使用的api
 
-##客户端程序
+### 客户端程序
 
 客户端使用html5开发，采用的是tidesdk打全平台的包，因此只用维护一套程序，即可完成ios,android,PC上的客户端APP
 
 H5客户端，实现对webdav服务端文件的操作，包括复制，删除，下载等操作。
 
 关于tidesdk的资料可以参考官网http://www.tidesdk.org/
+
+![客户端图片](https://github.com/chenfan/teamdisk/blob/master/teamdisk_pc.jpg "客户端")
 
 
