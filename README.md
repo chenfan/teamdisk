@@ -26,9 +26,11 @@ teamdisk
 
 ### 客户端程序
 
+代码在目录 /tidesdk_html5
+
 客户端使用html5开发，采用的是tidesdk打全平台的包，因此只用维护一套程序，即可完成ios,android,PC上的客户端APP
 
-H5客户端，实现对webdav服务端文件的操作，包括复制，删除，下载等操作。
+html5客户端，实现对webdav服务端文件的操作，包括复制，删除，下载等。
 
 关于tidesdk的资料可以参考官网http://www.tidesdk.org/
 
